@@ -1,22 +1,18 @@
 <?php
 
-require 'meli.php';
+require 'import/meli.php';
+session_start();
 
 //if(!isset($_GET['code'])){
-$meli = new Meli(3351068522076632, "N7hvLh8ISIXQ5OdTlpnlGQrdTUE7EQKD");
+$meli = new Meli("2634203647737077", "RMR3lwj030Q66a6VNAfyPEWwRLdPhiwA");
 $redirectUrl = $meli->getAuthUrl('http://localhost');
 
-echo $redirectUrl;
+if (!isset($_GET['code'])){
+    header("Location:".$redirectUrl);
+}
+
+$user = $meli->authorize($_GET['code'], 'http://localhost');
+$_SESSION['access_token'] = $user['body']->access_token;
+echo $_SESSION['access_token'];
 
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript" src="index.js"></script>
-    </head>
-    <body>
-        <div><a href="http://auth.mercadolibre.com.uy/authorization?client_id=3351068522076632&response_type=code&redirect_uri=http%3A%2F%2Flocalhost">Login a MercadoLibre</a></div>
-    </body>
-</html>

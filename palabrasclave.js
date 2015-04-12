@@ -1,17 +1,17 @@
 var PalabrasClave = {};
 
-$(document).ready(function() {
-    //console.log(PalabrasClave.limpiarString("Iajúùuuüaaaa!!! Ay mujéeeeer?"));
-    var string = "Hola, qué tal? Quería saber si tienen en color rojo.. Gracias";
-    var stopWords = ["hola","que","tal","queria","saber","si","tienen","en",
-        "gracias"];
-    
-    var array = PalabrasClave.obtenerPC(string, stopWords);
-    
-    for(var i = 0, j = array.length; i < j; i++) {
-        console.log(array[i]);
-    }
-});
+//$(document).ready(function() {
+//    //console.log(PalabrasClave.limpiarString("Iajúùuuüaaaa!!! Ay mujéeeeer?"));
+//    var string = "Hola, qué tal? Quería saber si tienen en color rojo.. Gracias";
+//    var stopWords = ["hola","que","tal","queria","saber","si","tienen","en",
+//        "gracias"];
+//    
+//    var array = PalabrasClave.obtenerPC(string, stopWords);
+//    
+//    for(var i = 0, j = array.length; i < j; i++) {
+//        console.log(array[i]);
+//    }
+//});
 
 PalabrasClave.limpiarString = function(string) {
     var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüû",

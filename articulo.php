@@ -1,7 +1,20 @@
 <?php
-$item = array("nombre"=>"GPS SUPER ULTRA", "precio"=>"$1190","descripcion"=>"Y... aca iria la descripcion");
 
-$preguntas = array(array("pregunta"=>"Que horario hacen?","respuesta"=>"Estamos abiertos Lunes a Sabados de 8 a 20hs"));
+require 'DatabaseConnection.php';
+require 'import/meli.php';
+session_start();
+
+$item_id = $_GET['item_id'];
+
+$db = DatabaseConnection::connect();
+DatabaseConnection::loadItemQuestions($db, $item_id);
+$pregsVendedor = DatabaseConnection::selectPreguntasVendedor($db);
+//$pregsMeli = DatabaseConnection::selectPreguntasMeli($db,$item_id);
+$keywords = DatabaseConnection::selectKeywords($db, $item_id);
+
+$json_preguntas_vendedor = json_encode($pregsVendedor);
+$json_keywords = json_encode($keywords);
+
 ?>
 <html class="">
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# meli-uy: http://ogp.me/ns/fb/meli-uy# product: http://ogp.me/ns/product#">
@@ -12,12 +25,12 @@ $preguntas = array(array("pregunta"=>"Que horario hacen?","respuesta"=>"Estamos 
         </script>
         
         <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="palabrasclave.js"></script> 
         <script type="text/javascript" src="question.js"></script>
 
         <script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-SHV3"></script>
         <script id="facebook-jssdk" async="" src="//connect.facebook.net/es_LA/all.js"></script>
         <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script>
-        <script type="text/javascript" src="palabrasclave.js"></script> 
     <iframe src="javascript:false" id="GoogleAnalyticsIframe" style="width: 0px; height: 0px; border: 0px; position: absolute;">
     </iframe>
     <iframe src="javascript:false" style="width: 0px; height: 0px; border: 0px; position: absolute;">
@@ -109,6 +122,13 @@ $preguntas = array(array("pregunta"=>"Que horario hacen?","respuesta"=>"Estamos 
         .fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style>
 </head>
 <body class="ml-vip">
+    <?php
+    $array = file("stop_words.txt");
+    $string = join("", $array);
+    echo "<div id=\"stop_words\" style=\"display:none;\">$string</div>";
+    echo "<div id=\"preguntas_vendedor\" style=\"display:none;\">".$json_preguntas_vendedor."</div>";
+    echo "<div id=\"keywords\" style=\"display:none;\">$json_keywords</div>";
+    ?>
     <div class="ml-header">
         <div class="ml-header-inner">
             <!-- LOGO -->
